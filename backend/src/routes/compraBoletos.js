@@ -10,3 +10,6 @@ router.delete("/id",validationAuthCookie(["Admin"]), compraBoletosController.del
 router.put("/:id",validationAuthCookie(["Admin"]), compraBoletosController.updateCompra)
 
 export default router
+
+
+//cdsddd
