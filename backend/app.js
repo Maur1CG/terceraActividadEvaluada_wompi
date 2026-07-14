@@ -7,6 +7,7 @@ import loginAdminRoutes from "./src/routes/loginAdmin.js"
 import loginClientRoutes from "./src/routes/loginClient.js"
 import compraBoletoRoutes from "./src/routes/compraBoletos.js"
 import wompiRoutes from "./src/routes/wompi.js"
+import { validationAuthCookie } from "./src/middleware/authMiddleware.js"
 import cookieParser from "cookie-parser";
 
 const app = express ();
@@ -21,6 +22,6 @@ app.use("/api/admin", adminRoutes)
 app.use("/api/loginAdmin", loginAdminRoutes)
 app.use("/api/loginClient", loginClientRoutes)
 app.use("/api/compraBoletos",  compraBoletoRoutes)
-app.use("/api/wompi", wompiRoutes)
+app.use("/api/wompi",validationAuthCookie(["Client"]), wompiRoutes)
 
 export default app;
