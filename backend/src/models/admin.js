@@ -12,4 +12,4 @@ const adminSchema = new Schema({
     strict: false
 });
 
-export default model("Client", adminSchema);
+export default model("Admin", adminSchema);

@@ -5,7 +5,7 @@ import bcryptjs from "bcryptjs"
 
 import config from "../../config.js";
 
-import adminModel from "../models/client.js"
+import adminModel from "../models/admin.js"
 
 const registerAdminController = {};
 
@@ -62,6 +62,8 @@ registerAdminController.register = async (req, res) => {
 
             return res.status(200).json({message: "Email sent"})
         })
+
+        return res.status(200).json({message: "Email sent"})
     } catch (error) {
         console.log("error"+error)
         return res.status(500).json({message: "Internal server error"})
@@ -90,7 +92,7 @@ registerAdminController.verifyCode = async (req, res) => {
             return res.status (400).json ({message: "Invalid code"});
         }
 
-        const newAdmin = clientModel({
+        const newAdmin = adminModel({
             name,
             email,
             password,

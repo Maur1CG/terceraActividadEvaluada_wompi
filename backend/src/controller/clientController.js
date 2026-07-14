@@ -1,4 +1,4 @@
-import clientModel from '../models/clients.js';
+import clientModel from '../models/client.js';
 
 
 const clientController = {};
@@ -19,7 +19,7 @@ clientController.getAllClients = async (req, res) => {
 clientController.updateClient = async (req, res) => {
     try {
         
-        let { name, lastName, birthDate, email, password, isVerified} = req.body;
+        let { name,  email, password, isVerified} = req.body;
 
         
         name = name.trim();
@@ -38,8 +38,6 @@ clientController.updateClient = async (req, res) => {
    
         const clientUpdated = await clientModel.findByIdAndUpdate(req.params.id, {
             name,
-            lastName,
-            birthDate,
             email,
             password,
             isVerified

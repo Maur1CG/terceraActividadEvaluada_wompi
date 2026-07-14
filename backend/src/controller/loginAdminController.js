@@ -3,57 +3,57 @@ import jsonwebtoken from "jsonwebtoken";
 
 import {config} from "../../config.js";
 
-import customerModel from "../models/customers.js";
+import adminModel from "../models/admin.js";
  
 
-const loginCustomersController = {};
+const loginAdminController = {};
 
-loginCustomersController.login = async (req, res) => {
+loginAdminController.login = async (req, res) => {
     try {
         
         const {email, password} = req.body;
 
         
-        const customerFound = await customerModel.findOne({email})
+        const adminFound = await adminModel.findOne({email})
 
         
-        if(!customerFound){
+        if(!adminFound){
             return res.status(400).json({message: "customer not found"})
         }
 
        
-        if(customerFound.timeOut && customerFound.timeOut > Date.now()){
+        if(adminFound.timeOut && adminFound.timeOut > Date.now()){
             return res.status(403).json({message: "Blocked account"})
         }
 
        
-        const isMatch = await bcrypt.compare(password, customerFound.password)
+        const isMatch = await bcrypt.compare(password, adminFound.password)
 
         //Si la contraseña esta incorrecta
         if(!isMatch){
             //Sumar 1 ala cantidad de intentos fallidos
-            customerFound.loginAttempts = (customerFound.loginAttempts || 0)+1
-            if(customerFound.loginAttempts >= 5){
-                customerFound.timeOut = Date.now() + 15*60*1000;
-                customerFound.loginAttempts = 0;
+            adminFound.loginAttempts = (adminFound.loginAttempts || 0)+1
+            if(adminFound.loginAttempts >= 5){
+                adminFound.timeOut = Date.now() + 15*60*1000;
+                adminFound.loginAttempts = 0;
 
-                await customerFound.save();
+                await adminFound.save();
 
                 return res.status(403).json({message: "Blocked account for many attemmps"})
 
             }
-            await customerFound.save();
+            await adminFound.save();
 
             return res.status(401).json({message: "wrong password"})
        }
 
-       customerFound.loginAttempts = 0;
-       customerFound.timeOut = null;
+       adminFound.loginAttempts = 0;
+       adminFound.timeOut = null;
 
       
        const token = jsonwebtoken.sign(
          
-          {id: customerFound._id, useType: "customer"},
+          {id: adminFound._id, useType: "client"},
           
            config.JWT.secret,
            
@@ -70,4 +70,4 @@ loginCustomersController.login = async (req, res) => {
     }
 };
 
-export default loginCustomersController;
+export default loginAdminController;
