@@ -20,7 +20,7 @@ app.use("/api/registerAdmin", registerAdminRoutes)
 app.use("/api/admin", adminRoutes)
 app.use("/api/loginAdmin", loginAdminRoutes)
 app.use("/api/loginClient", loginClientRoutes)
-app.use("/api/compraBoletos", compraBoletoRoutes)
+app.use("/api/compraBoletos",  compraBoletoRoutes)
 app.use("/api/wompi", wompiRoutes)
 
 export default app;
